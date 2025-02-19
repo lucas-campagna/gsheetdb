@@ -30,7 +30,7 @@ const ss = SpreadsheetApp.getActive();
 const doPost = event => jsonifyResult(main(JSON.parse(event.postData.contents)));
 const doGet = () => ContentService.createTextOutput("Successo!!!").setMimeType(ContentService.MimeType.TEXT);
 
-function main({ action, table, items, ids }) {
+function main({ action, table: tableName, ...props }) {
   if (!ss) {
     return makeError('No active Spreadsheet active');
   }
@@ -39,13 +39,13 @@ function main({ action, table, items, ids }) {
     return makeError(`Invalid action ${action}`);
   }
 
-  const sheet = ss.getSheetByName(table);
-  if (!sheet) {
+  const table = ss.getSheetByName(tableName);
+  if (tableName && !table) {
     return makeError(`No table ${table}`);
   }
 
   try {
-    return makeSuccess(actions[action]({ table: sheet, items, ids }));
+    return makeSuccess(actions[action]({ table, ...props }));
   } catch(message){ 
     return makeError(message);
   }
@@ -55,6 +55,7 @@ const actions = {}
 actions['set'] = setData;
 actions['get'] = getData;
 actions['rm'] = rmData;
+actions['tables'] = tablesData;
 
 function setData({ table, items }) {
   table.appendRows = appendRows;
@@ -110,4 +111,8 @@ function rmData({ table, ids }) {
   const tableItemsObject = getData({ table }).reduce((acc, item, index) => ({...acc, [item.id]: {...item, row: index+2}}), {});
   const rowsToDelete = [... new Set(ids.map(id => tableItemsObject[id]?.row).filter(e => e))];
   rowsToDelete.sort().reverse().forEach(row => table.deleteRow(row));
+}
+
+function tablesData() {
+  return ss.getSheets().map(sheet => sheet.getName());
 }

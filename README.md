@@ -33,6 +33,12 @@ import { Sheet } from 'gsheets-db';
 const sheet = new Sheet({ deploymentId: '123456789abcdef' })
 ```
 
+### Get Tables
+
+```js
+await sheet.tables();
+```
+
 ### Add Item
 
 ```js

@@ -10,15 +10,25 @@ export class Sheet {
                     method: 'POST',
                     body: JSON.stringify(body)
                 }
-            ).then(p => p.json());
+            )
+            .then(p => p.json())
+            .then(({success, message}) => {
+                if (!success) {
+                    throw message;
+                }
+                return message
+            });
     };
-    get(table){
+    tables() {
+        return this.fetch({ action: 'tables' });
+    }
+    get(table) {
         return this.fetch({ action: 'get', table });
     };
-    set(table, items){
+    set(table, items) {
         return this.fetch({ action: 'set', table, items });
     };
-    rm(table, ids){
+    rm(table, ids) {
         return this.fetch({ action: 'rm', table, ids });
     };
 };
