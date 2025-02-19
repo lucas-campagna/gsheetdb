@@ -1,0 +1,24 @@
+export class Sheet {
+    constructor(config){
+        if (!config.deploymentId){
+            throw 'No DeploymentId provided';
+        }
+        this.fetch = body =>
+            fetch(
+                `https://script.google.com/macros/s/${config.deploymentId}/exec`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify(body)
+                }
+            ).then(p => p.json());
+    };
+    get(table){
+        return this.fetch({ action: 'get', table });
+    };
+    set(table, items){
+        return this.fetch({ action: 'set', table, items });
+    };
+    rm(table, ids){
+        return this.fetch({ action: 'rm', table, ids });
+    };
+};
