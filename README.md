@@ -41,6 +41,8 @@ await sheet.tables();
 
 ### Add Item
 
+`Ids` are generated automaticaly
+
 ```js
 await sheet.set('Sheet1', [
     {col1: 'val1', col2: 2, col3: new Date()},
@@ -159,3 +161,24 @@ sheet.get('Sheet1', {col1: [{gt: 1, le: 3}, {ge: 14, lt: 16}]})
 ```js
 sheet.get('Sheet1', {col1: [30, {gt: 1, le: 3}, {ge: 14, lt: 16}]})
 ```
+
+## Auth (Optional) (IN DEVELOPMENT)
+
+Create a table with name `_users` and columns **id**, **access** and either:
+
+1. **token**: if you want to login with token alone
+2. **username, password**: if you want to do it with username and password 
+
+On the client side you connect with:
+
+```js
+const sheet = new Sheet({
+    deploymentId: '123456789abcdef',
+    token: 'abc123'
+    // or
+    username: 'admin',
+    password: 'admin'
+})
+```
+
+The column `id` is used to filter 
