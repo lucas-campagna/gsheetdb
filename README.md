@@ -2,7 +2,7 @@
 
 A simple way to use Google Sheet as your Data Base with own authentication system.
 
-> No google project is needed.
+> No google workspace project is needed.
 
 ## Install
 
@@ -14,7 +14,7 @@ npm install gsheets-db
 
 1. Create a google sheet
 2. Add as many sheets (tables) as you want
-3. First line is table header
+3. First line is table header, first column must be `id`
 4. Table relationship: set a column header with the name of a table, its content is the id (or ids) of the other table
 5. Go to "Extensions > App Script"
 6. Copy the content of the file `gsheet.js` to the current file.
