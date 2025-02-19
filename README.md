@@ -73,3 +73,89 @@ Remove by item ids
 ```js
 sheet.rm('Sheet1', [1234])
 ```
+
+### Query Items
+
+Add the query to [get](#get-item) function.
+
+Query can be object or array.
+
+General rules:
+
+- **`=`**: `field: value`
+- **`>`**: `field: {gt: value}`. `gt` stands for "greater than"
+- **`<`**: `field: {lt: value}`. `lt` stands for "lower than"
+- **`>=`**: `field: {ge: value}`. `ge` stands for "greater or equals to"
+- **`<=`**: `field: {le: value}`. `le` stands for "greater or equals to"
+- **AND**: curly brace `{A, B, C}` read as "_A and B and C_"
+- **OR**: square brace `[A, B, C]` read as "_A or B or C_"
+
+#### Examples:
+
+##### Get all items where column `col1` is equal to `123`
+
+```js
+sheet.get('Sheet1', {col1: 123})
+```
+
+##### Get all items where column `col1 == 123` **AND** `col2 == 456`
+
+```js
+sheet.get('Sheet1', {col1: 123, col2: 456})
+```
+
+##### Get all items where column `col1 == 123` **OR** `col2 == 456`
+
+```js
+sheet.get('Sheet1', [{col1: 123}, {col2: 456}])
+```
+
+##### Get all items where column `col1 == 123` **OR** `col1 == 456`
+
+```js
+sheet.get('Sheet1', [{col1: [123, 456]}])
+// OR
+sheet.get('Sheet1', [{col1: 123}, {col1: 456}])
+```
+
+##### Get all items where column `col1 > 123`
+
+```js
+sheet.get('Sheet1', {col1: {gt: 123}})
+```
+
+##### Get all items where column `col1 < 123`
+
+```js
+sheet.get('Sheet1', {col1: {lt: 123}})
+```
+
+##### Get all items where column `col1 >= 123`
+
+```js
+sheet.get('Sheet1', {col1: {ge: 123}})
+```
+
+##### Get all items where column `col1 >= 123`
+
+```js
+sheet.get('Sheet1', {col1: {ge: 123}})
+```
+
+##### Get all items from interval `col1 > 123` **AND** `col1 <= 456` (for short `(123, 456]`)
+
+```js
+sheet.get('Sheet1', {col1: {gt: 123, le: 456}})
+```
+
+##### Get all items where `col1` belongs to interval `(1, 3]` **OR** from interval `[14, 16)`
+
+```js
+sheet.get('Sheet1', {col1: [{gt: 1, le: 3}, {ge: 14, lt: 16}]})
+```
+
+##### Get all items where `col1 == 30` **OR** belongs to interval `(1, 3]` **OR** to interval `[14, 16)`
+
+```js
+sheet.get('Sheet1', {col1: [30, {gt: 1, le: 3}, {ge: 14, lt: 16}]})
+```

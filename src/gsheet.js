@@ -28,7 +28,6 @@ function generateUUID() {
 const ss = SpreadsheetApp.getActive();
 
 const doPost = event => jsonifyResult(main(JSON.parse(event.postData.contents)));
-const doGet = () => ContentService.createTextOutput("Successo!!!").setMimeType(ContentService.MimeType.TEXT);
 
 function main({ action, table: tableName, ...props }) {
   if (!ss) {
@@ -41,7 +40,7 @@ function main({ action, table: tableName, ...props }) {
 
   const table = ss.getSheetByName(tableName);
   if (tableName && !table) {
-    return makeError(`No table ${table}`);
+    return makeError(`No table ${tableName}`);
   }
 
   try {
@@ -102,9 +101,44 @@ function setData({ table, items }) {
   }
 }
 
-function getData({ table }) {
-  const [header, ...content] = table.getDataRange().getValues();
-  return content.map(d => header.reduce((a, h, i) => ({...a, [h]: d[i]}), {}))
+function getData({ table, query }) {
+  const [header, ...rows] = table.getDataRange().getValues();
+  const items = rows.map(d => header.reduce((a, h, i) => ({...a, [h]: d[i]}), {}))
+  if (!query || Object.keys(query) === 0) {
+    return items;
+  }
+  const validQueryKeys = new Set(['gt', 'lt', 'ge', 'le']);
+  const testConditions = (c, d) =>
+    c === d ||
+    (
+      typeof c === 'object' &&
+      validQueryKeys.has(Object.keys(c)?.[0]) &&
+      ('gt' in c ? d >  c.gt : true) &&
+      ('lt' in c ? d <  c.lt : true) &&
+      ('ge' in c ? d >= c.ge : true) &&
+      ('le' in c ? d <= c.le : true)
+    )
+  const buildFilterFunction = query => 
+    header.reduce((a, h) => 
+      !(h in query)
+      ? a
+      : (
+          Array.isArray(query[h])
+          ? {...a, [h]: d => query[h].some(c => testConditions(c, d[h]))}
+          : typeof query[h] === 'object'
+            ? {...a, [h]: d => testConditions(query[h], d[h])}
+            : {...a, [h]: d => query[h] === d[h]}
+        ), {}
+    );
+  if (Array.isArray(query)) {
+    const itemsWithRepetitions = query.map(q => {
+      const filterFunctions = buildFilterFunction(q);
+      return items.filter(d => header.reduce((a, h) => a && (filterFunctions?.[h]?.(d) ?? true), true))
+    }).flat();
+    return Object.values(itemsWithRepetitions.reduce((a, item) => ({...a, [item.id]: item}),{}));
+  }
+  const filterFunctions = buildFilterFunction(query);
+  return items.filter(d => header.reduce((a, h) => a && (filterFunctions?.[h]?.(d) ?? true), true))
 }
 
 function rmData({ table, ids }) {
@@ -114,5 +148,5 @@ function rmData({ table, ids }) {
 }
 
 function tablesData() {
-  return ss.getSheets().map(sheet => sheet.getName());
+  return ss.getSheets().map(table => table.getName());
 }

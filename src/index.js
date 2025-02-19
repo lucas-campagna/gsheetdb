@@ -22,8 +22,8 @@ export class Sheet {
     tables() {
         return this.fetch({ action: 'tables' });
     }
-    get(table) {
-        return this.fetch({ action: 'get', table });
+    get(table, query) {
+        return this.fetch({ action: 'get', table, query });
     };
     set(table, items) {
         return this.fetch({ action: 'set', table, items });
