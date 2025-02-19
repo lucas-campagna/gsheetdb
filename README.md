@@ -33,7 +33,7 @@ import { Sheet } from 'gsheets-db';
 const sheet = new Sheet({ deploymentId: '123456789abcdef' })
 ```
 
-### Get Tables
+### Get Tables (with Schemas)
 
 ```js
 await sheet.tables();
@@ -58,7 +58,7 @@ const data = await sheet.get('Sheet1')
 
 ### Modify Item
 
-Same API as `set` but with `id`. If `id` doesn't exist, it fails.
+Same API as [set](#add-item) but with `id`. If `id` doesn't exist, it fails.
 
 ```js
 sheet.set('Sheet1', [

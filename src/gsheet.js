@@ -1,7 +1,13 @@
 const makeSuccess = message => ({"success": true,  message});
 const makeError = message => ({"success": false,  message});
 const jsonifyResult = e => ContentService.createTextOutput(JSON.stringify(e)).setMimeType(ContentService.MimeType.JSON);
-const getHeader = table => table.getRange(1,1,1, table.getLastColumn()).getValues()?.[0] || [];
+
+const getHeader = function(table) {
+  if (table) {
+    return table.getRange(1,1,1, table.getLastColumn()).getValues()?.[0] || []
+  }
+  return this.getRange(1,1,1, this.getLastColumn()).getValues()?.[0] || []
+};
 
 function appendRows(data) {
   if(data?.length){
@@ -43,6 +49,12 @@ function main({ action, table: tableName, ...props }) {
     return makeError(`No table ${tableName}`);
   }
 
+  if (table) {
+    table.appendRows = appendRows;
+    table.setTable = setTable;
+    table.getHeader = getHeader;
+  }
+
   try {
     return makeSuccess(actions[action]({ table, ...props }));
   } catch(message){ 
@@ -57,11 +69,9 @@ actions['rm'] = rmData;
 actions['tables'] = tablesData;
 
 function setData({ table, items }) {
-  table.appendRows = appendRows;
-  table.setTable = setTable;
   const modifiedItems = items.filter(item => item.id);
   const newItems = items.filter(item => !item.id);
-  const header = getHeader(table);
+  const header = table.getHeader();
     
   // Has items to modify?
   if (modifiedItems?.length) {
@@ -72,7 +82,7 @@ function setData({ table, items }) {
 
     // Validate modified items
     if (modifiedItems.some(item => !idOfItemsOnTable.includes(item.id))) {
-      throw `[Modify items] Items without id: ${modifiedItems.map(({id}, index) => !idOfItemsOnTable.includes(id) ? index : null).filter(e => e === null)}`
+      throw `No item with id: ${modifiedItems.map(({id}, index) => !idOfItemsOnTable.includes(id) ? index : null).filter(e => e !== null)}`
     }
 
     // Modify table items
@@ -88,7 +98,7 @@ function setData({ table, items }) {
     // Validate new items
     const newItemsMissingFields = newItems.map(item => header.filter(h => !(h in {id:null, ...item})));
     if (newItemsMissingFields.some(item => item.length !== 0)) {
-      throw `[Add items] Missing fields: ${newItemsMissingFields.reduce((acc, fields, index) => fields.length !== 0 ? `${acc}\n ${index}: ${fields}` : acc, '')}
+      throw `Missing fields at add items: ${newItemsMissingFields.reduce((acc, fields, index) => fields.length !== 0 ? `${acc}\n ${index}: ${fields}` : acc, '')}
       `;
     }
 
@@ -148,5 +158,5 @@ function rmData({ table, ids }) {
 }
 
 function tablesData() {
-  return ss.getSheets().map(table => table.getName());
+  return ss.getSheets().map(table => ({[table.getName()]: getHeader(table)}));
 }
