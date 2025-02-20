@@ -123,6 +123,7 @@ function getData({ table, query }) {
     (
       typeof c === 'object' &&
       validQueryKeys.has(Object.keys(c)?.[0]) &&
+      ('ne' in c ? d != c.ne : true) &&
       ('gt' in c ? d >  c.gt : true) &&
       ('lt' in c ? d <  c.lt : true) &&
       ('ge' in c ? d >= c.ge : true) &&

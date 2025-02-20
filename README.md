@@ -85,6 +85,7 @@ Query can be object or array.
 General rules:
 
 - **`=`**: `field: value`
+- **`!=`**: `field: {ne: value}`. `ne` stands for "not equal"
 - **`>`**: `field: {gt: value}`. `gt` stands for "greater than"
 - **`<`**: `field: {lt: value}`. `lt` stands for "lower than"
 - **`>=`**: `field: {ge: value}`. `ge` stands for "greater or equals to"
