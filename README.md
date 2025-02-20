@@ -93,7 +93,9 @@ General rules:
 - **AND**: curly brace `{A, B, C}` read as "_A and B and C_"
 - **OR**: square brace `[A, B, C]` read as "_A or B or C_"
 
-#### Examples:
+<details>
+
+<summary> Examples:</summary>
 
 ##### Get all items where column `col1` is equal to `123`
 
@@ -163,23 +165,70 @@ sheet.get('Sheet1', {col1: [{gt: 1, le: 3}, {ge: 14, lt: 16}]})
 sheet.get('Sheet1', {col1: [30, {gt: 1, le: 3}, {ge: 14, lt: 16}]})
 ```
 
+</details>
+
 ## Auth (Optional) (IN DEVELOPMENT)
 
-Create a table with name `_users` and columns **id**, **access** and either:
+Create a table `_users` with the following columns:
 
-1. **token**: if you want to login with token alone
-2. **username, password**: if you want to do it with username and password 
+1. **id** to identify each user.
 
-On the client side you connect with:
+2. **token** or **username** and **password** depending on how you want to do the login.
+
+3. **permission** should contain either `admin`, `user` or `blocked` (default).
+    - `admin` can read (**r**), write (**w**) and delete (**x**) access to all tables.
+    - `user` can only read recursively tables that reference its user's `id`.
+    - `blocked` can not do **rwx**.
+
+4. **read** allow or disable read to tables, give their names splited by ",".
+5. **write** allow or disable write to tables, give their names splited by ",".
+6. **delete** allow or disable delete to tables, give their names splited by ",".
+
+<details>
+
+<summary>Example</summary>
+
+
+Table: **_user**
+| id | token  | permission | read   | write | delete  |
+|----|--------|------------|--------|-------|---------|
+|  1 | user01 | admin      |        |       |         |
+|  2 | user02 | user       | Table1 |       |         |
+|  3 | user03 | block      | Table3 |       |         |
+
+Table: **Table1**
+| id | _user | col1 | Table2 |
+|----|-------|------|--------|
+| 10 |     2 | 123  |    456 |
+| 11 |     4 | 321  |    789 |
+
+Table: **Table2**
+|  id | my_data |
+|-----|---------|
+| 456 |     123 |
+
+Table: **Table3**
+| id | temperature |
+|----|-------------|
+| 14 |        43.4 |
+
+`user01` can read, write and exclude items from all tables.
+
+`user02` can not get **Table2** directly, instead he can ask **Table1**, because it has a reference to him (by its user's id). By asking **Table1** he will only get the entries where column **_user** contains its user's id. In this example he will get the entry `id == 10`. This entry has the column **Table2** which references to a valid entry on **Table2**, so he will get this entry as well. Note that he has no access to **Table3**.
+
+`user03` is blocked by default he can only read **Table3**.
+
+</details>
+
+### Auth client side
 
 ```js
 const sheet = new Sheet({
     deploymentId: '123456789abcdef',
+    // either
     token: 'abc123'
     // or
     username: 'admin',
     password: 'admin'
 })
 ```
-
-The column `id` is used to filter 
