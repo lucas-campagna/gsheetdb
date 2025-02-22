@@ -3,12 +3,23 @@ export class Sheet {
         if (!config.deploymentId){
             throw 'No DeploymentId provided';
         }
+        const { token, username, password, deploymentId } = config;
+        const auth = token
+            ? { token }
+            : (
+                username && password
+                ? { username, password }
+                : !!username || !!password
+            );
+        if (auth === true) {
+            throw `You tried to auth with username and password but you do not provided either username or passoword`;
+        }
         this.fetch = body =>
             fetch(
-                `https://script.google.com/macros/s/${config.deploymentId}/exec`,
+                `https://script.google.com/macros/s/${deploymentId}/exec`,
                 {
                     method: 'POST',
-                    body: JSON.stringify(body)
+                    body: JSON.stringify({ ...body, ...auth })
                 }
             )
             .then(p => p.json())
