@@ -76,6 +76,12 @@ Remove by item ids
 sheet.rm('Sheet1', [1234])
 ```
 
+### New Table
+
+```js
+sheet.new('MyNewSheetName', ['field1', 'field2', 'field3'])
+```
+
 ### Query Items
 
 Add the query to [get](#get-item) function.

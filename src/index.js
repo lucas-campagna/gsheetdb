@@ -42,4 +42,7 @@ export class Sheet {
     rm(table, ids) {
         return this.fetch({ action: 'rm', table, ids });
     };
+    new(table, header) {
+        return this.fetch({ action: 'new', table, header });
+    }
 };
