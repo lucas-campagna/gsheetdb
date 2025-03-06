@@ -84,7 +84,7 @@ sheet.new('MyNewSheetName', ['field1', 'field2', 'field3'])
 
 ### Query Items
 
-Add the query to [get](#get-item) function.
+Add the `query` to [get](#get-item) function.
 
 Query can be object or array.
 
@@ -113,12 +113,6 @@ sheet.get('Sheet1', {col1: 123})
 
 ```js
 sheet.get('Sheet1', {col1: 123, col2: 456})
-```
-
-##### Get all items where column `col1 == 123` **OR** `col2 == 456`
-
-```js
-sheet.get('Sheet1', [{col1: 123}, {col2: 456}])
 ```
 
 ##### Get all items where column `col1 == 123` **OR** `col1 == 456`
