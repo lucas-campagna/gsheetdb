@@ -167,7 +167,7 @@ sheet.get('Sheet1', {col1: [30, {gt: 1, le: 3}, {ge: 14, lt: 16}]})
 
 </details>
 
-## Auth (Optional) (IN DEVELOPMENT)
+## Auth (Optional)
 
 Create a table `_users` with the following columns:
 
@@ -183,6 +183,8 @@ Create a table `_users` with the following columns:
 4. **read** allow or disable read to tables, give their names splited by ",".
 5. **write** allow or disable write to tables, give their names splited by ",".
 6. **delete** allow or disable delete to tables, give their names splited by ",".
+
+> You can change the name of Auth table [here](src/gsheet.js#L1).
 
 <details>
 
