@@ -33,28 +33,6 @@ import { Sheet } from 'gsheetsdb';
 const sheet = new Sheet({ deploymentId: '123456789abcdef' })
 ```
 
-### Auth (Optional) (IN DEVELOPMENT)
-
-Create a table with name `_users` and columns **id**, **access** and either:
-
-1. **token**: if you want to login with token alone
-2. **username, password**: if you want to do it with username and password 
-
-On the client side you connect with:
-
-```js
-const sheet = new Sheet({
-    deploymentId: '123456789abcdef',
-    // either
-    token: 'abc123',
-    // or
-    username: 'admin',
-    password: 'admin'
-})
-```
-
-The column `id` is used to filter 
-
 ### Get Tables (with Schemas)
 
 ```js
@@ -68,7 +46,7 @@ await sheet.tables();
 ```js
 await sheet.set('Sheet1', [
     {col1: 'val1', col2: 2, col3: new Date()},
-    {col1: 'val1', col2: 2, col3: new Date()},
+    {col1: 'val2', col2: 3, col3: new Date()},
 ])
 ```
 
@@ -250,15 +228,3 @@ Table: **Table3**
 
 </details>
 
-### Auth client side
-
-```js
-const sheet = new Sheet({
-    deploymentId: '123456789abcdef',
-    // either
-    token: 'abc123'
-    // or
-    username: 'admin',
-    password: 'admin'
-})
-```
