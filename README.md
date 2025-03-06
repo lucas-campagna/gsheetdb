@@ -169,7 +169,7 @@ sheet.get('Sheet1', {col1: [30, {gt: 1, le: 3}, {ge: 14, lt: 16}]})
 
 ## Auth (Optional)
 
-Create a table `_users` with the following columns:
+Create a table `_user` with the following columns:
 
 1. **id** to identify each user.
 
@@ -194,8 +194,8 @@ Create a table `_users` with the following columns:
 Table: **_user**
 | id | token  | permission | read   | write | delete  |
 |----|--------|------------|--------|-------|---------|
-|  1 | user01 | admin      |        |       |         |
-|  2 | user02 | user       | Table1 |       |         |
+|  1 | user01 | admin      |        |       | Table3  |
+|  2 | user02 | user       |        |       |         |
 |  3 | user03 | block      | Table3 |       |         |
 
 Table: **Table1**
@@ -214,7 +214,7 @@ Table: **Table3**
 |----|-------------|
 | 14 |        43.4 |
 
-`user01` can read, write and exclude items from all tables.
+`user01` can read, write and delete items from all tables except delete **Table3**.
 
 `user02` can not get **Table2** directly, instead he can ask **Table1**, because it has a reference to him (by its user's id). By asking **Table1** he will only get the entries where column **_user** contains its user's id. In this example he will get the entry `id == 10`. This entry has the column **Table2** which references to a valid entry on **Table2**, so he will get this entry as well. Note that he has no access to **Table3**.
 
