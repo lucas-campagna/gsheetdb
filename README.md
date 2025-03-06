@@ -45,7 +45,8 @@ On the client side you connect with:
 ```js
 const sheet = new Sheet({
     deploymentId: '123456789abcdef',
-    token: 'abc123'
+    // either
+    token: 'abc123',
     // or
     username: 'admin',
     password: 'admin'
