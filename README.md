@@ -7,7 +7,7 @@ A simple way to use Google Sheet as your Data Base with own authentication syste
 ## Install
 
 ```bash
-npm install gsheets-db
+npm install gsheetsdb
 ```
 
 ## Setup
@@ -28,7 +28,7 @@ npm install gsheets-db
 ## Usage
 
 ```js
-import { Sheet } from 'gsheets-db';
+import { Sheet } from 'gsheetsdb';
 
 const sheet = new Sheet({ deploymentId: '123456789abcdef' })
 ```
