@@ -9,9 +9,9 @@ export class Sheet {
             : (
                 username && password
                 ? { username, password }
-                : !!username || !!password
+                : null
             );
-        if (auth === true) {
+        if (!auth) {
             throw `You tried to auth with username and password but you do not provided either username or passoword`;
         }
         this.fetch = body =>
