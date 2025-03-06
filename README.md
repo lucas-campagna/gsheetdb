@@ -1,4 +1,4 @@
-# GSheets-DB
+# GSheetsDB
 
 A simple way to use Google Sheet as your Data Base with own authentication system.
 
