@@ -19,7 +19,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           scope: '@lprett'
           always-auth: true
-      - run: npm ci
       - run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
       - run: npm publish --access public
         env:
