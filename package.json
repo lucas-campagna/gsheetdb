@@ -1,6 +1,6 @@
 {
-  "name": "gsheet-db",
-  "version": "1.0.0",
+  "name": "@lprett/gsheet-db",
+  "version": "1.0.1",
   "description": "A simple way to use Google Sheet as your Data Base with own authentication system.",
   "main": "index.js",
   "scripts": {
