@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "A simple way to use Google Sheet as your Data Base with own authentication system.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lucas-campagna/gsheet-db.git"
