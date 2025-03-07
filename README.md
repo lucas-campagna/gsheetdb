@@ -1,4 +1,4 @@
-# GSheetsDB
+# GSheet DB
 
 A simple way to use Google Sheet as your Data Base with own authentication system.
 
@@ -7,7 +7,7 @@ A simple way to use Google Sheet as your Data Base with own authentication syste
 ## Install
 
 ```bash
-npm install gsheetsdb
+npm install gsheet-db
 ```
 
 ## Setup
@@ -28,7 +28,7 @@ npm install gsheetsdb
 ## Usage
 
 ```js
-import { Sheet } from 'gsheetsdb';
+import Sheet from 'gsheet-db';
 
 const sheet = new Sheet({ deploymentId: '123456789abcdef' })
 ```

@@ -1,4 +1,4 @@
-export class Sheet {
+class Sheet {
     constructor(config){
         if (!config.deploymentId){
             throw 'No DeploymentId provided';
@@ -46,3 +46,4 @@ export class Sheet {
         return this.fetch({ action: 'new', table, header });
     }
 };
+export default Sheet;
