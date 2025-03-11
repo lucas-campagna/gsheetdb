@@ -191,8 +191,8 @@ const USER = {
   canDelete: () => true,
   canAdd: () => true,
   isAdmin: () => true,
-  authTable: AUTH_TABLE_NAME && new TableNoAuth(AUTH_TABLE_NAME),
-  isTokenBased: cacheFunction(() => USER.hasAuthTable() && USER.authTable.header().includes('token')),
+  authTable: function() { return this.hasAuthTable() && new TableNoAuth(AUTH_TABLE_NAME)},
+  isTokenBased: cacheFunction(() => USER.hasAuthTable() && USER.authTable().header().includes('token')),
   isAccessFilteredByUserId: name => USER.permission === 'user' && !USER.read.includes(name),
   login({ token, username, password }) {
     if (!this.hasAuthTable()) {
@@ -202,8 +202,8 @@ const USER = {
       return false;
     }
     const user = this.isTokenBased()
-      ? this.authTable.values().filter(user => user.token == token)[0]
-      : this.authTable.values().filter(user => user.username == username && user.password == password)[0]
+      ? this.authTable().values().filter(user => user.token == token)[0]
+      : this.authTable().values().filter(user => user.username == username && user.password == password)[0]
     const allowedUserPermissions = ['admin', 'user', 'blocked'];
     if (user == undefined || !allowedUserPermissions.includes(user.permission)) {
       return false;
