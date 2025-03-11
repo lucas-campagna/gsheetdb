@@ -276,7 +276,7 @@ TABLES.schemas = cacheFunction((full = false) => {
   return schemas;
 })
 
-
+const doGet = () => jsonifyResult(main({ action: 'tables' }));
 const doPost = event => jsonifyResult(main(JSON.parse(event.postData.contents)));
 
 function main({ action, ...props }) {
