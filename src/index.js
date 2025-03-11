@@ -6,12 +6,7 @@ class Sheet {
     const { token, username, password, deploymentId } = config;
     const auth = token
       ? { token }
-      : username && password
-      ? { username, password }
-      : null;
-    if (!auth) {
-      throw `You tried to auth with username and password but you do not provided either username or passoword`;
-    }
+      : { username, password };
     this.fetch = (body) =>
       fetch(`https://script.google.com/macros/s/${deploymentId}/exec`, {
         method: "POST",
@@ -41,4 +36,4 @@ class Sheet {
     return this.fetch({ action: "new", table, header });
   }
 }
-export { Sheet };
+export default Sheet;
