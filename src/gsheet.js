@@ -191,7 +191,7 @@ const USER = {
   canDelete: () => true,
   canAdd: () => true,
   isAdmin: () => true,
-  authTable: function() { return this.hasAuthTable() && new TableNoAuth(AUTH_TABLE_NAME)},
+  authTable: function () { return this.hasAuthTable() && new TableNoAuth(AUTH_TABLE_NAME) },
   isTokenBased: cacheFunction(() => USER.hasAuthTable() && USER.authTable().header().includes('token')),
   isAccessFilteredByUserId: name => USER.permission === 'user' && !USER.read.includes(name),
   login({ token, username, password }) {
@@ -323,8 +323,8 @@ function setData({ table: tableName, items }) {
     const idOfItemsOnTableAllowedToModify = table._column('id');
 
     // Validate modified items
-    if (!modifiedItems.every(({id}) => idOfItemsOnTableAllowedToModify.includes(id))) {
-      throw `Item(s) with id(s) not allowed to be modified: ${modifiedItems.filter(({ id }) => !idOfItemsOnTableAllowedToModify.includes(id)).map(({id}) => id)}`
+    if (!modifiedItems.every(({ id }) => idOfItemsOnTableAllowedToModify.includes(id))) {
+      throw `Item(s) with id(s) not allowed to be modified: ${modifiedItems.filter(({ id }) => !idOfItemsOnTableAllowedToModify.includes(id)).map(({ id }) => id)}`
     }
 
     // Modify table items
@@ -337,7 +337,7 @@ function setData({ table: tableName, items }) {
   // Has items to add?
   if (newItems?.length) {
     // Validate new items
-    if (!USER.canAdd(tableName)){
+    if (!USER.canAdd(tableName)) {
       throw `Not allowed to add new items`;
     }
     const newItemsMissingFields = newItems.map(item => header.filter(h => !(h in { [AUTH_TABLE_NAME]: null, id: null, ...item })));
@@ -348,8 +348,8 @@ function setData({ table: tableName, items }) {
     // Add new items
     table.append(
       header.includes(AUTH_TABLE_NAME)
-       ? newItems.map(item => ({...item, [AUTH_TABLE_NAME]: USER.id}) )
-       : newItems
+        ? newItems.map(item => ({ ...item, [AUTH_TABLE_NAME]: USER.id }))
+        : newItems
     );
   }
 }
@@ -447,10 +447,10 @@ function rmData({ table: tableName, ids }) {
   const table = TABLES(tableName);
   const idOfItemsAllowedToBeRemoved = table._column('id');
   const tableItemsObject = new TableNoAuth(tableName).values()
-    .reduce((acc, item, index) => 
+    .reduce((acc, item, index) =>
       idOfItemsAllowedToBeRemoved.includes(item.id)
-       ? ({ ...acc, [item.id]: { ...item, row: index + 2 } })
-       : acc,
+        ? ({ ...acc, [item.id]: { ...item, row: index + 2 } })
+        : acc,
       {}
     );
   const rowsToDelete = [... new Set(ids.map(id => tableItemsObject[id]?.row).filter(e => e))];
@@ -463,7 +463,7 @@ function tablesData() {
   return TABLES.schemas();
 }
 
-function newData({table: tableName, header}){
+function newData({ table: tableName, header }) {
   if (!USER.isAdmin()) {
     throw 'Only admins can create new tables';
   }
@@ -472,5 +472,5 @@ function newData({table: tableName, header}){
   }
   const newSheet = ss.insertSheet(0);
   newSheet.setName(tableName);
-  newSheet.getRange(1, 1, 1, header.length+1).setValues([['id', ...header]]);
+  newSheet.getRange(1, 1, 1, header.length + 1).setValues([['id', ...header]]);
 }
