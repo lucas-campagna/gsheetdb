@@ -1,6 +1,6 @@
 {
   "name": "@lprett/gsheetdb",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A simple way to use Google Sheet as your Data Base with own authentication system.",
   "type": "module",
   "main": "src/index.js",
@@ -14,7 +14,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/lucas-campagna/gsheet-db/issues"
   },
