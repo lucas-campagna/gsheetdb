@@ -73,13 +73,21 @@ class TableNoAuth {
       return;
     }
     if (data?.length) {
+      const ids = this._sheet
+        .getRange(2, 1, this._sheet.getLastRow(), 1)
+        .getValues()
+        .flat();
+      const rows = ids.map(id => data.filter(d => d.id === id)?.[0]);
       const header = this.header();
-      const numRows = data.length;
       const numCols = header.length;
-      this._sheet
-        .getRange(2, 1, numRows, numCols)
-        .setValues(data.map(row => header.map(h => row[h])));
-      this._items = data;
+      rows.forEach((item, row) => {
+        if (item) {
+          const range = this._sheet.getRange(row + 2, 1, 1, numCols);
+          const currentItem = range.getValues().flat();
+          range.setValues([header.map((h, i) => item[h] ?? currentItem[i])])
+        }
+      });
+      this._items = undefined;
     }
   }
   deleteRow(row) {
@@ -202,8 +210,8 @@ const USER = {
     const user = this.isTokenBased()
       ? this.authTable().values().filter(user => user.token == token)[0]
       : this.authTable().values().filter(user => user.username == username && user.password == password)[0]
-    const allowedUserPermissions = ['admin', 'user', 'blocked'];
-    if (user == undefined || !allowedUserPermissions.includes(user.permission)) {
+    const allowedPermissions = ['admin', 'user', 'blocked'];
+    if (user == undefined || !allowedPermissions.includes(user.permission)) {
       return false;
     }
     this.id = user.id;
@@ -316,8 +324,8 @@ function setData({ table: tableName, items }) {
   // Has items to modify?
   if (modifiedItems?.length) {
     // Prepare data to parse modified items
-    const modifiedItemsObject = modifiedItems.reduce((acc, item) => ({ ...acc, [item.id]: item }), {});
-    const itemsOnTable = new TableNoAuth(tableName).values();
+    // const modifiedItemsObject = modifiedItems.reduce((acc, item) => ({ ...acc, [item.id]: item }), {});
+    // const itemsOnTable = new TableNoAuth(tableName).values();
     const idOfItemsOnTableAllowedToModify = table._column('id');
 
     // Validate modified items
@@ -327,8 +335,9 @@ function setData({ table: tableName, items }) {
 
     // Modify table items
     table.set(
-      itemsOnTable
-        .map(item => ({ ...item, ...modifiedItemsObject[item.id] }))
+      modifiedItems
+      // itemsOnTable
+      //   .map(item => ({ ...item, ...modifiedItemsObject[item.id] }))
     );
   }
 
