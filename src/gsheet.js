@@ -76,8 +76,6 @@ class TableNoAuth {
       const header = this.header();
       const numRows = data.length;
       const numCols = header.length;
-      const numCurrentRows = this._sheet.getLastRow();
-      this._sheet.deleteRows(2, numCurrentRows);
       this._sheet
         .getRange(2, 1, numRows, numCols)
         .setValues(data.map(row => header.map(h => row[h])));
