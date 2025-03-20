@@ -17,7 +17,7 @@ npm install @lprett/gsheetdb
 3. First line is table header, first column must be `id`
 4. Table relationship: set a column header with the name of a table, its content is the id (or ids) of the other table
 5. Go to "Extensions > App Script"
-6. Copy the content of the file `gsheet.js` to the current file.
+6. Copy the content of the file [`gsheet.js`](/gsheet.js) to the current file.
 7. Create a new deploy: "Deploy > New deployment"
     - **Select type**: "Web app"
     - **Description**: Anything you wanted
