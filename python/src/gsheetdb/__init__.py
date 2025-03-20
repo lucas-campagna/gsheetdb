@@ -1,5 +1,6 @@
 import requests
 import json
+from typing import Optional, Union, List, Dict, Any
 
 class Sheet:
     def __init__(self, config):
@@ -7,7 +8,12 @@ class Sheet:
             raise ValueError("No DeploymentId provided")
 
         self.deploymentId = config['deploymentId']
-        self.auth = {'token': config['token']} if 'token' in config else {'username': config['username'], 'password': config['password']}
+        self.auth = {}
+        if 'token' in config:
+            self.auth['token'] = config['token']
+        if 'username' in config and 'password' in config:
+            self.auth['username'] = config['username']
+            self.auth['password'] = config['password']
 
     def _fetch(self, body):
         url = f"https://script.google.com/macros/s/{self.deploymentId}/exec"
@@ -31,14 +37,14 @@ class Sheet:
     def tables(self):
         return self._fetch({'action': 'tables'})
 
-    def get(self, table, query):
+    def get(self, table: str, query: Optional[Union[List[Any], Dict[str, Any]]] = None):
         return self._fetch({'action': 'get', 'table': table, 'query': query})
 
-    def set(self, table, items):
+    def set(self, table: str, items: List[Dict[str, Any]]):
         return self._fetch({'action': 'set', 'table': table, 'items': items})
 
-    def rm(self, table, ids):
+    def rm(self, table: str, ids: List[Any]):
         return self._fetch({'action': 'rm', 'table': table, 'ids': ids})
 
-    def new(self, table, header):
+    def new(self, table: str, header: Dict[str, List[str]]):
         return self._fetch({'action': 'new', 'table': table, 'header': header})

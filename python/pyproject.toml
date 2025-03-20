@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gsheetdb"
+version = "1.2.1"
+authors = [
+    { name = "Lucas Prett Campagna", email = "lucasprett129@gmail.com" },
+]
+description = "A simple way to use Google Sheet as your Data Base." #Replace with your description
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "requests",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/gsheetdb"
+"Bug Tracker" = "https://github.com/yourusername/gsheetdb/issues"
