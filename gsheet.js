@@ -265,7 +265,7 @@ TABLES.tables = cacheFunction((full = false) => {
 })
 
 TABLES.schemas = cacheFunction((full = false) => {
-  const schemas = TABLES.tables(full)
+  let schemas = TABLES.tables(full)
     .reduce((acc, name) =>
       ({ ...acc, [name]: new TableNoAuth(name).header() }),
       {}
