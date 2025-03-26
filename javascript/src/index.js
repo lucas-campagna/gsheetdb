@@ -4,9 +4,7 @@ class Sheet {
       throw "No DeploymentId provided";
     }
     const { token, username, password, deploymentId } = config;
-    const auth = token
-      ? { token }
-      : { username, password };
+    const auth = token ? { token } : { username, password };
     this.fetch = (body) =>
       fetch(`https://script.google.com/macros/s/${deploymentId}/exec`, {
         method: "POST",
@@ -19,6 +17,9 @@ class Sheet {
           }
           return message;
         });
+  }
+  me() {
+    return this.fetch({ action: "me" });
   }
   get(table, query) {
     return this.fetch({ action: "get", table, query });

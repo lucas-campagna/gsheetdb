@@ -34,6 +34,9 @@ class Sheet:
         except json.JSONDecodeError:
             raise ValueError("Invalid JSON response from Google Script")
 
+    def me(self):
+        return self._fetch({'action': 'me'})
+
     def get(self, table: Optional[str] = None, query: Optional[Union[List[Any], Dict[str, Any]]] = None):
         return self._fetch({'action': 'get', 'table': table, 'query': query})
 

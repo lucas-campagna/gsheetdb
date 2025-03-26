@@ -200,6 +200,7 @@ const USER = {
   authTable: function () { return this.hasAuthTable() && new TableNoAuth(AUTH_TABLE_NAME) },
   isTokenBased: cacheFunction(() => USER.hasAuthTable() && USER.authTable().header().includes('token')),
   isAccessFilteredByUserId: name => USER.permission === 'user' && !USER.read.includes(name),
+  getMe: () => ({}),
   login({ token, username, password }) {
     if (!this.hasAuthTable()) {
       return true;
@@ -211,9 +212,13 @@ const USER = {
       ? this.authTable().values().filter(user => user.token == token)[0]
       : this.authTable().values().filter(user => user.username == username && user.password == password)[0]
     const allowedPermissions = ['admin', 'user', 'blocked'];
+
     if (user == undefined || !allowedPermissions.includes(user.permission)) {
       return false;
     }
+
+    this.getMe = cacheFunction(() => user);
+    
     this.id = user.id;
     this.permission = user.permission;
     this.read = user.read.split(',');
@@ -310,6 +315,7 @@ actions['set'] = setData;
 actions['get'] = getData;
 actions['rm'] = rmData;
 actions['new'] = newData;
+actions['me'] = getMe;
 
 function setData({ table: tableName, items }) {
   if (!USER.canWrite(tableName)) {
@@ -478,4 +484,8 @@ function newData({ table: tableName, header }) {
   const newSheet = ss.insertSheet(0);
   newSheet.setName(tableName);
   newSheet.getRange(1, 1, 1, header.length + 1).setValues([['id', ...header]]);
+}
+
+function getMe() {
+  return USER.getMe();
 }
