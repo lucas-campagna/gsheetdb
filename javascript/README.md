@@ -186,6 +186,12 @@ Create a table `_user` with the following columns:
 
 > You can change the name of Auth table [here](src/gsheet.js#L1).
 
+### Get auth info
+
+```js
+await sheet.getMe()
+```
+
 <details>
 
 <summary>Example</summary>
