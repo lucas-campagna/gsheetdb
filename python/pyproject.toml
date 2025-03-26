@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gsheetdb"
-version = "1.2.1"
+version = "1.2.2"
 authors = [
     { name = "Lucas Prett Campagna", email = "lucasprett129@gmail.com" },
 ]
