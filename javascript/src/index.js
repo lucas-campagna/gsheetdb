@@ -20,9 +20,6 @@ class Sheet {
           return message;
         });
   }
-  tables() {
-    return this.fetch({ action: "tables" });
-  }
   get(table, query) {
     return this.fetch({ action: "get", table, query });
   }

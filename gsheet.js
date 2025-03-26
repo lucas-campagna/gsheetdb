@@ -309,7 +309,6 @@ const actions = {}
 actions['set'] = setData;
 actions['get'] = getData;
 actions['rm'] = rmData;
-actions['tables'] = tablesData;
 actions['new'] = newData;
 
 function setData({ table: tableName, items }) {
@@ -397,6 +396,9 @@ function getDataRecursively(items) {
 }
 
 function getData({ table: tableName, query }) {
+  if (!tableName) {
+    return TABLES.schemas();
+  }
   if (!USER.canRead(tableName)) {
     throw `Can't get table "${tableName}"`;
   }
@@ -464,10 +466,6 @@ function rmData({ table: tableName, ids }) {
   return rowsToDelete.sort().reverse().map(row => {
     table.deleteRow(row);
   });
-}
-
-function tablesData() {
-  return TABLES.schemas();
 }
 
 function newData({ table: tableName, header }) {

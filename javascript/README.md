@@ -33,10 +33,18 @@ import Sheet from '@lprett/gsheetdb';
 const sheet = new Sheet({ deploymentId: '123456789abcdef' })
 ```
 
-### Get Tables (with Schemas)
+### Get Tables Schemas
 
 ```js
-await sheet.tables();
+await sheet.get();
+```
+
+### Get Table Items
+
+Return all items
+
+```js
+const data = await sheet.get('Sheet1')
 ```
 
 ### Add Item
@@ -48,14 +56,6 @@ await sheet.set('Sheet1', [
     {col1: 'val1', col2: 2, col3: new Date()},
     {col1: 'val2', col2: 3, col3: new Date()},
 ])
-```
-
-### Get Item
-
-Return all items
-
-```js
-const data = await sheet.get('Sheet1')
 ```
 
 ### Modify Item

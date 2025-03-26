@@ -33,10 +33,18 @@ from gsheetdb import Sheet
 const sheet = Sheet({ 'deploymentId': '123456789abcdef' })
 ```
 
-### Get Tables (with Schemas)
+### Get Tables Schemas
 
 ```js
-sheet.tables();
+sheet.get();
+```
+
+### Get Table Item
+
+Return all items
+
+```js
+const data = sheet.get('Sheet1')
 ```
 
 ### Add Item
@@ -48,14 +56,6 @@ sheet.set('Sheet1', [
     {'col1': 'val1', 'col2': 2, 'col3': datetime.datetime()},
     {'col1': 'val2', 'col2': 3, 'col3': datetime.datetime()},
 ])
-```
-
-### Get Item
-
-Return all items
-
-```js
-const data = sheet.get('Sheet1')
 ```
 
 ### Modify Item
