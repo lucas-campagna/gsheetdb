@@ -27,7 +27,7 @@ pip install gsheetdb
 
 ## Usage
 
-```js
+```py
 from gsheetdb import Sheet
 
 const sheet = Sheet({ 'deploymentId': '123456789abcdef' })
@@ -35,15 +35,15 @@ const sheet = Sheet({ 'deploymentId': '123456789abcdef' })
 
 ### Get Tables Schemas
 
-```js
-sheet.get();
+```py
+sheet.get()
 ```
 
 ### Get Table Item
 
 Return all items
 
-```js
+```py
 const data = sheet.get('Sheet1')
 ```
 
@@ -51,7 +51,7 @@ const data = sheet.get('Sheet1')
 
 `Ids` are generated automaticaly
 
-```js
+```py
 sheet.set('Sheet1', [
     {'col1': 'val1', 'col2': 2, 'col3': datetime.datetime()},
     {'col1': 'val2', 'col2': 3, 'col3': datetime.datetime()},
@@ -62,7 +62,7 @@ sheet.set('Sheet1', [
 
 Same API as [set](#add-item) but with `id`. If `id` doesn't exist, it fails.
 
-```js
+```py
 sheet.set('Sheet1', [
     {id: 1234, 'col1': 'val2'}
 ])
@@ -72,13 +72,13 @@ sheet.set('Sheet1', [
 
 Remove by item ids
 
-```js
+```py
 sheet.rm('Sheet1', [1234])
 ```
 
 ### New Table
 
-```js
+```py
 sheet.new('MyNewSheetName', ['field1', 'field2', 'field3'])
 ```
 
@@ -105,19 +105,19 @@ General rules:
 
 ##### Get all items where column `col1` is equal to `123`
 
-```js
+```py
 sheet.get('Sheet1', {'col1': 123})
 ```
 
 ##### Get all items where column `col1 == 123` **AND** `col2 == 456`
 
-```js
+```py
 sheet.get('Sheet1', {'col1': 123, 'col2': 456})
 ```
 
 ##### Get all items where column `col1 == 123` **OR** `col1 == 456`
 
-```js
+```py
 sheet.get('Sheet1', [{'col1': [123, 456]}])
 // OR
 sheet.get('Sheet1', [{'col1': 123}, {'col1': 456}])
@@ -125,43 +125,43 @@ sheet.get('Sheet1', [{'col1': 123}, {'col1': 456}])
 
 ##### Get all items where column `col1 > 123`
 
-```js
+```py
 sheet.get('Sheet1', {'col1': {'gt': 123}})
 ```
 
 ##### Get all items where column `col1 < 123`
 
-```js
+```py
 sheet.get('Sheet1', {'col1': {'lt': 123}})
 ```
 
 ##### Get all items where column `col1 >= 123`
 
-```js
+```py
 sheet.get('Sheet1', {'col1': {'ge': 123}})
 ```
 
 ##### Get all items where column `col1 >= 123`
 
-```js
+```py
 sheet.get('Sheet1', {'col1': {'ge': 123}})
 ```
 
 ##### Get all items from interval `col1 > 123` **AND** `col1 <= 456` (for short `(123, 456]`)
 
-```js
+```py
 sheet.get('Sheet1', {'col1': {'gt': 123, le: 456}})
 ```
 
 ##### Get all items where `col1` belongs to interval `(1, 3]` **OR** from interval `[14, 16)`
 
-```js
+```py
 sheet.get('Sheet1', {'col1': [{'gt': 1, le: 3}, {'ge': 14, 'lt': 16}]})
 ```
 
 ##### Get all items where `col1 == 30` **OR** belongs to interval `(1, 3]` **OR** to interval `[14, 16)`
 
-```js
+```py
 sheet.get('Sheet1', {'col1': [30, {'gt': 1, 'le': 3}, {'ge': 14, 'lt': 16}]})
 ```
 
