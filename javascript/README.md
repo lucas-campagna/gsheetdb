@@ -189,7 +189,7 @@ Create a table `_user` with the following columns:
 ### Get auth info
 
 ```js
-await sheet.getMe()
+await sheet.me()
 ```
 
 <details>

@@ -1,9 +1,11 @@
 {
   "name": "@lprett/gsheetdb",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A simple way to use Google Sheet as your Data Base with own authentication system.",
   "main": "dist/src/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npx babel src/index.js -d dist"
   },
@@ -20,6 +22,8 @@
   "homepage": "https://github.com/lucas-campagna/gsheetdb#readme",
   "devDependencies": {
     "@babel/core": "^7.26.9",
-    "@babel/preset-env": "^7.26.9"
+    "@babel/preset-env": "^7.26.9",
+    "@types/node": "^22.13.13",
+    "typescript": "^5.8.2"
   }
 }

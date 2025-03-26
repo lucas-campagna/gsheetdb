@@ -189,7 +189,7 @@ Create a table `_user` with the following columns:
 ### Get auth info
 
 ```py
-sheet.getMe()
+sheet.me()
 ```
 
 <details>
