@@ -41,7 +41,7 @@ class TableNoAuth {
     if (!this._hasSheet()) {
       return [];
     }
-    if (this._items) {
+    if (this._items?.length > 1) {
       return Object.keys(this._items[0])
     }
     if (this._sheet.getLastColumn() === 0) {
