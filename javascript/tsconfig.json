@@ -6,7 +6,6 @@
     "target": "es5",
     "moduleResolution": "bundler",
     "declaration": true,
-    "emitDeclarationOnly": true,
     "declarationMap": true
   },
   "include": ["src/*.ts"],
