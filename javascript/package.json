@@ -1,8 +1,9 @@
 {
   "name": "@lprett/gsheetdb",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "A simple way to use Google Sheet as your Data Base with own authentication system.",
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
