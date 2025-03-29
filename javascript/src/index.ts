@@ -49,7 +49,7 @@ class Sheet {
   me(): SheetMeTypes {
     return this.fetch({ action: "me" });
   }
-  get(table: string | undefined, query: any | undefined): SheetGetType {
+  get(table?: string, query?: any): SheetGetType {
     return this.fetch({ action: "get", table, query });
   }
   set(table: string, items: ItemType[]): SheetSetType {
